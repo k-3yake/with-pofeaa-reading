@@ -14,26 +14,14 @@ public class Product {
 	
 	public static Product newProduct(String type,String productName){
 		if(type.equals("S")){
-			return Product.newSpreadsheet(productName);
+			return new Product(productName, new ThreeWayRecognintinStrategy(60,90));
 		}else if(type.equals("W")){
-			return Product.newWordProcessor(productName);
+			return new Product(productName, new CompleteRecognitinStrategy());
 		}else if(type.equals("D")){
-			return Product.newDatabase(productName);
+			return new Product(productName, new ThreeWayRecognintinStrategy(30,60));
 		}else{
 			throw new AppException("不正なtypeです。type=" + type);
 		}
-	}
-
-	public static Product newWordProcessor(String name){
-		return new Product(name, new CompleteRecognitinStrategy());
-	}
-	
-	public static Product newSpreadsheet(String name){
-		return new Product(name, new ThreeWayRecognintinStrategy(60,90));
-	}
-	
-	public static Product newDatabase(String name){
-		return new Product(name, new ThreeWayRecognintinStrategy(30,60));
 	}
 
 	public void calulateRevenueRecognitons(Contract contract) {

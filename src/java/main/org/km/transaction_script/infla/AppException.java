@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class AppException extends RuntimeException{
 
-	public AppException(SQLException e) {
+	public AppException(Exception e) {
 		// TODO Auto-generated constructor stub
 	}
 
