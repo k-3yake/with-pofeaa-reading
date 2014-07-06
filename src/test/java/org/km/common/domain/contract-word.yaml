@@ -1,0 +1,13 @@
+contract:
+-
+  ID: 10 
+  PRODUCT: 1 
+  AMOUNT: 100
+  WHEN_SIGNED: 2014-01-01 01:01:01
+
+revenue_recognition:
+-
+  CONTRACT: 10
+  RECOGNIZED_ON: 2014-01-01 01:01:01
+  AMOUNT: 100
+

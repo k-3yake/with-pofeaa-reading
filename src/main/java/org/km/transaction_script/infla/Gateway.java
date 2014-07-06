@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.km.values.MfDate;
-import org.km.values.Money;
+import org.km.common.domain.MfDate;
+import org.km.common.domain.Money;
+import org.km.common.infla.ConnectionFactory;
 
 public class Gateway {
-	private Connection db;
+	private Connection db = ConnectionFactory.getConnection();
 	
 	public ResultSet findRecognitionsFor(long contractID,MfDate asof) throws SQLException{
 		PreparedStatement stmt = db.prepareStatement(findRecognitionsStatement); 
@@ -19,9 +20,9 @@ public class Gateway {
 		return resultSet;
 	}
 	private static final String findRecognitionsStatement =
-			"select amount"
-			+ "from revenueRecognitions "
-			+ "where contract = ? and recognizedOn <= ?";
+			"select amount "
+			+ " from revenue_recognition "
+			+ " where contract = ? and recognized_on <= ?";
 	
 	public ResultSet findContract(long contractID) throws SQLException{
 		PreparedStatement stmt = db.prepareStatement(findContractsStatement );
@@ -42,5 +43,5 @@ public class Gateway {
 		stmt.setDate(3, recognitionDate.toSqlDate());
 		stmt.executeUpdate();
 	}
-	private static final String insertRecognitionStatement = "insert into revenueRecognitions values (?,?,?)";
+	private static final String insertRecognitionStatement = "insert into revenue_recognitions values (?,?,?)";
 }

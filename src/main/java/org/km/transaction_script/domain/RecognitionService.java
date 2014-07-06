@@ -3,14 +3,16 @@ package org.km.transaction_script.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.km.common.domain.IRecognitionService;
+import org.km.common.domain.MfDate;
+import org.km.common.domain.Money;
 import org.km.transaction_script.infla.AppException;
 import org.km.transaction_script.infla.Gateway;
-import org.km.values.MfDate;
-import org.km.values.Money;
 
-public class RecognitionService {
-	private Gateway db;
+public class RecognitionService implements IRecognitionService{
+	private Gateway db = new Gateway(); 
 
+	@Override
 	public Money recognizedRevenue(long contractNumber, MfDate asof) {
 		Money result = Money.dollars(0);
 		try {
@@ -24,12 +26,13 @@ public class RecognitionService {
 		}
 	}
 	
+	@Override
 	public void calculateRevenueRecognitions(long contractNumber){
 		try {
 			ResultSet contacts = db.findContract(contractNumber);
 			contacts.next();
 			Money totalRevenue = Money.dollars(contacts.getBigDecimal("revenue"));
-			MfDate recognitionDate = new MfDate(contacts.getDate("dateSigned"));
+			MfDate recognitionDate = new MfDate(contacts.getDate("date_signed"));
 			String type = contacts.getString("type");
 			if(type.equals("S")){
 				Money[] allocation = totalRevenue.allocate(3);

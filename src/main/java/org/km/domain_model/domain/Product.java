@@ -1,4 +1,4 @@
-package org.km.domain_model.domin;
+package org.km.domain_model.domain;
 
 import org.km.transaction_script.infla.AppException;
 

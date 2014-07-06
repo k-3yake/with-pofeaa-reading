@@ -1,19 +1,20 @@
-package org.km.values;
+package org.km.common.domain;
 
 import java.sql.Date;
 
 public class MfDate {
+	private java.util.Date date;
+	
 	public MfDate(){
-		
+		date = new java.util.Date();
 	}
 
 	public MfDate(Date date) {
-		// TODO Auto-generated constructor stub
+		this.date = new Date(date.getTime());
 	}
 
 	public Date toSqlDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Date(date.getTime());
 	}
 
 	public MfDate addDays(int i) {
@@ -25,5 +26,4 @@ public class MfDate {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

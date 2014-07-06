@@ -1,7 +1,7 @@
-package org.km.domain_model.domin;
+package org.km.domain_model.domain;
 
-import org.km.values.MfDate;
-import org.km.values.Money;
+import org.km.common.domain.MfDate;
+import org.km.common.domain.Money;
 
 public class RevenueRecognition {
 	private Money amount;

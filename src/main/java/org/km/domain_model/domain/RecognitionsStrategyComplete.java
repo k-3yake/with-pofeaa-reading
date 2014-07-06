@@ -1,4 +1,4 @@
-package org.km.domain_model.domin;
+package org.km.domain_model.domain;
 
 
 public class RecognitionsStrategyComplete extends RecognitionsStrategy {
