@@ -1,4 +1,4 @@
-package org.km.common.domain;
+package org.km.common.application;
 
 import static org.hamcrest.CoreMatchers.is;import static org.junit.Assert.*;
 
@@ -16,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import org.km.common.application.IRecognitionService;
 import org.km.common.domain.MfDate;
 import org.km.common.domain.Money;
 import org.km.common.infla.ConnectionFactory;

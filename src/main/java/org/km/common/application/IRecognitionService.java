@@ -1,4 +1,7 @@
-package org.km.common.domain;
+package org.km.common.application;
+
+import org.km.common.domain.MfDate;
+import org.km.common.domain.Money;
 
 public interface IRecognitionService {
 

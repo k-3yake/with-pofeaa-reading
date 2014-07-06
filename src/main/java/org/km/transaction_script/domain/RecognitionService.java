@@ -3,7 +3,7 @@ package org.km.transaction_script.domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.km.common.domain.IRecognitionService;
+import org.km.common.application.IRecognitionService;
 import org.km.common.domain.MfDate;
 import org.km.common.domain.Money;
 import org.km.transaction_script.infla.AppException;

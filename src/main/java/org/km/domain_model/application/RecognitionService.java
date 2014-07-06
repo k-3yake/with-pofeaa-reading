@@ -1,6 +1,6 @@
 package org.km.domain_model.application;
 
-import org.km.common.domain.IRecognitionService;
+import org.km.common.application.IRecognitionService;
 import org.km.common.domain.MfDate;
 import org.km.common.domain.Money;
 import org.km.domain_model.domain.Contract;
