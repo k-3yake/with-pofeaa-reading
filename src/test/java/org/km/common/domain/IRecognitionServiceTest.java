@@ -1,7 +1,6 @@
 package org.km.common.domain;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -18,11 +17,12 @@ import org.junit.runner.RunWith;
 import org.km.common.domain.MfDate;
 import org.km.common.domain.Money;
 import org.km.common.infla.ConnectionFactory;
-import org.km.transaction_script.domain.RecognitionService;
+//import org.km.transaction_script.domain.RecognitionService;
+import org.km.domain_model.application.RecognitionService;
+
 
 @RunWith(Enclosed.class)
 public class IRecognitionServiceTest {
-	
 	
 	@Fixture(resources={"product.yaml","contract-word.yaml"})
 	public static class ワードの契約の場合{
@@ -58,13 +58,17 @@ public class IRecognitionServiceTest {
 		return DbUnitTester.forJdbc(ConnectionFactory.driver, ConnectionFactory.url)
 	    .username(ConnectionFactory.user)
 	    .password(ConnectionFactory.password)
-	    .create();
+	    .create();	
 	}
 	
 	private static void doTest(String asOf, int expectAmount) throws ParseException {
-		IRecognitionService recognitionService = new RecognitionService();
+		IRecognitionService recognitionService = getService();
 		MfDate asof = new MfDate(new Date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(asOf).getTime()));
 		Money recognizedRevenue = recognitionService.recognizedRevenue(10, asof);
 		assertThat(recognizedRevenue.amount(), is(new BigDecimal(expectAmount)));
+	}
+
+	static RecognitionService getService() {
+		return new RecognitionService();
 	}
 }

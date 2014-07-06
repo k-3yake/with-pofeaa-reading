@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.km.common.domain.MfDate;
 import org.km.common.domain.Money;
+import org.km.common.infla.ConnectionFactory;
 import org.km.domain_model.domain.Contract;
 import org.km.domain_model.domain.ContractRepository;
 import org.km.domain_model.domain.Product;
@@ -18,7 +19,7 @@ import org.km.domain_model.domain.RevenueRecognition;
 import org.km.transaction_script.infla.AppException;
 
 public class JDBCContractRepository implements ContractRepository {
-	private Connection db;
+	private Connection db = ConnectionFactory.getConnection();
 	
 	// ドメイン層ではアクセスさせたくないが、インフラ層でアクセスする必要のあるメソッド、フィールドにはリフレクションを使用
 
@@ -28,23 +29,24 @@ public class JDBCContractRepository implements ContractRepository {
 			ResultSet rs = findContract(contractNumber);
 			rs.next();
 			Product product = Product.newProduct(rs.getString("type"),rs.getString("name"));
-			Money revenue = Money.dollars(rs.getBigDecimal("revenue"));
-			MfDate recognitionDate = new MfDate(rs.getDate("dateSigned"));
+			Money revenue = Money.dollars(rs.getBigDecimal("amount"));
+			MfDate recognitionDate = new MfDate(rs.getDate("when_signed"));
 			Contract contract = new Contract(product, revenue, recognitionDate);
 			for (RevenueRecognition revenueRecognition : findRevenueRecognitions(contractNumber)) {
-				getMethod(contract, "addRevnueRecognition").invoke(contract, revenueRecognition);
+				getMethod(contract, "addRevnueRecognition",RevenueRecognition.class).invoke(contract, revenueRecognition);
 			}
-			getField(contract, "id").setLong(contract, rs.getLong("c.id"));
+			getField(contract, "id").set(contract, new Long(rs.getLong("id")));
 			return contract;
 		} catch (Exception e) {
 			throw new AppException(e);
 		}
 	}
 
-	private Method getMethod(Contract contract, String name)
+	private Method getMethod(Contract contract, String name,Class... parameterType)
 			throws NoSuchMethodException {
-		Method addRevnueRecognitionMethod = contract.getClass().getDeclaredMethod(name);
-		return addRevnueRecognitionMethod;
+		Method method = contract.getClass().getDeclaredMethod(name,parameterType);
+		method.setAccessible(true);
+		return method;
 	}
 
 	private Field getField(Object object, String filedName) {
@@ -64,8 +66,8 @@ public class JDBCContractRepository implements ContractRepository {
 		return resultSet;
 	}
 	private static final String findContractsStatement = "select * "
-			+ " from contracts c, products p "
-			+ " where id = ? and c.produc = p.ID";
+			+ " from contract c, product p "
+			+ " where c.ID = ? and c.product = p.ID";
 
 	private List<RevenueRecognition> findRevenueRecognitions(long contractID)
 			throws SQLException {
@@ -75,14 +77,14 @@ public class JDBCContractRepository implements ContractRepository {
 		List<RevenueRecognition> result = new ArrayList<>();
 		while (rs.next()) {
 			Money amount = Money.dollars(rs.getInt("amount"));
-			MfDate redognizedOn = new MfDate(rs.getDate("recognizedOn"));
+			MfDate redognizedOn = new MfDate(rs.getDate("recognized_on"));
 			result.add(new RevenueRecognition(amount, redognizedOn));
 		}
 		return result;
 	}
 	private static final String findRecognitionsStatement 
 			= "select *"
-			+ "from revenueRecognitions " 
+			+ "from revenue_recognition " 
 			+ "where contract = ? ";
 
 	@Override
