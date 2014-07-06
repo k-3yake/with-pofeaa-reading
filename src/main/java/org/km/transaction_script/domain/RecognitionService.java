@@ -31,8 +31,8 @@ public class RecognitionService implements IRecognitionService{
 		try {
 			ResultSet contacts = db.findContract(contractNumber);
 			contacts.next();
-			Money totalRevenue = Money.dollars(contacts.getBigDecimal("revenue"));
-			MfDate recognitionDate = new MfDate(contacts.getDate("date_signed"));
+			Money totalRevenue = Money.dollars(contacts.getBigDecimal("amount"));
+			MfDate recognitionDate = new MfDate(contacts.getDate("when_signed"));
 			String type = contacts.getString("type");
 			if(type.equals("S")){
 				Money[] allocation = totalRevenue.allocate(3);

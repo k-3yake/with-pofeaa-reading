@@ -1,0 +1,6 @@
+revenue_recognition:
+-
+  CONTRACT: 10
+  RECOGNIZED_ON: '2014-01-01 00:00:00'
+  AMOUNT: 100
+

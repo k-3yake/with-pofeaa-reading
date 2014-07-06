@@ -32,16 +32,16 @@ public class Gateway {
 	}
 	private static final String findContractsStatement = 
 			"select * "
-			+ " from contracts c, products p "
-			+ " where id = ? and c.produc = p.ID";
+			+ " from contract c, product p "
+			+ " where c.id = ? and c.product = p.ID";
 	
 	
 	public void insertRecognition(long contractNumber, Money money,	MfDate recognitionDate) throws SQLException {
 		PreparedStatement stmt = db.prepareStatement(insertRecognitionStatement);
 		stmt.setLong(1, contractNumber);
-		stmt.setBigDecimal(2, money.amount());
-		stmt.setDate(3, recognitionDate.toSqlDate());
+		stmt.setDate(2, recognitionDate.toSqlDate());
+		stmt.setBigDecimal(3, money.amount());
 		stmt.executeUpdate();
 	}
-	private static final String insertRecognitionStatement = "insert into revenue_recognitions values (?,?,?)";
+	private static final String insertRecognitionStatement = "insert into revenue_recognition values (?,?,?)";
 }

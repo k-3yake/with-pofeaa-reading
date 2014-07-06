@@ -27,9 +27,13 @@ public class Money {
 		return result;
 	}
 
-	public Money[] allocate(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Money[] allocate(int time) {
+		Money[] result = new Money[time];
+		for (int i = 0; i < time -1; i++) {
+			result[i] = Money.dollars(this.amount / time);
+		}
+		result[time-1] = Money.dollars(this.amount/time + this.amount%time);
+		return result;
 	}
 
 	public BigDecimal amount() {

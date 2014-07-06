@@ -95,7 +95,7 @@ public class JDBCContractRepository implements ContractRepository {
 			List<RevenueRecognition> revenueRecognitions =
 					(List<RevenueRecognition>) getField(contract, "revenueRecognitions").get(contract);
 			for (RevenueRecognition revenueRecognition : revenueRecognitions) {
-				long id = getField(contract, "id").getLong(contract);
+				long id = (Long)getField(contract, "id").get(contract);
 				Money money = revenueRecognition.getAmount();
 				MfDate recognitionDate = (MfDate) getField(revenueRecognition,"date").get(revenueRecognition);
 				insertRecognition(id, money, recognitionDate);
@@ -108,9 +108,9 @@ public class JDBCContractRepository implements ContractRepository {
 	public void insertRecognition(long contractNumber, Money money,MfDate recognitionDate) throws SQLException {
 		PreparedStatement stmt = db.prepareStatement(insertRecognitionStatement);
 		stmt.setLong(1, contractNumber);
-		stmt.setBigDecimal(2, money.amount());
-		stmt.setDate(3, recognitionDate.toSqlDate());
+		stmt.setDate(2, recognitionDate.toSqlDate());
+		stmt.setBigDecimal(3, money.amount());
 		stmt.executeUpdate();
 	}
-	private static final String insertRecognitionStatement = "insert into revenueRecognitions values (?,?,?)";
+	private static final String insertRecognitionStatement = "insert into revenue_recognition values (?,?,?)";
 }

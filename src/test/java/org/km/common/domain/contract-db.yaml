@@ -1,6 +1,6 @@
 contract:
 -
   ID: 10 
-  PRODUCT: 1 
+  PRODUCT: 3 
   AMOUNT: 100
   WHEN_SIGNED: 2014-01-01

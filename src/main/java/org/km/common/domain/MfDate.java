@@ -2,6 +2,7 @@ package org.km.common.domain;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class MfDate {
 	private java.util.Date date;
@@ -18,9 +19,11 @@ public class MfDate {
 		return new Date(date.getTime());
 	}
 
-	public MfDate addDays(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public MfDate addDays(int days) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, days);
+		return new MfDate(new Date(calendar.getTime().getTime()));
 	}
 
 	public boolean after(MfDate date) {
